@@ -1,0 +1,16 @@
+<p style="color: green"><%= notice %></p>
+
+<% content_for :title, "Shelf daily stats" %>
+
+<h1>Shelf daily stats</h1>
+
+<div id="shelf_daily_stats">
+  <% @shelf_daily_stats.each do |shelf_daily_stat| %>
+    <%= render shelf_daily_stat %>
+    <p>
+      <%= link_to "Show this shelf daily stat", shelf_daily_stat %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New shelf daily stat", new_shelf_daily_stat_path %>

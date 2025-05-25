@@ -1,0 +1,12 @@
+<% content_for :title, "Editing shelf stat" %>
+
+<h1>Editing shelf stat</h1>
+
+<%= render "form", shelf_stat: @shelf_stat %>
+
+<br>
+
+<div>
+  <%= link_to "Show this shelf stat", @shelf_stat %> |
+  <%= link_to "Back to shelf stats", shelf_stats_path %>
+</div>

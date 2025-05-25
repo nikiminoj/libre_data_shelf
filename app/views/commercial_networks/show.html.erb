@@ -1,0 +1,10 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @commercial_network %>
+
+<div>
+  <%= link_to "Edit this commercial network", edit_commercial_network_path(@commercial_network) %> |
+  <%= link_to "Back to commercial networks", commercial_networks_path %>
+
+  <%= button_to "Destroy this commercial network", @commercial_network, method: :delete %>
+</div>

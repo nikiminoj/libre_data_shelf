@@ -1,0 +1,10 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @shelf_daily_stat %>
+
+<div>
+  <%= link_to "Edit this shelf daily stat", edit_shelf_daily_stat_path(@shelf_daily_stat) %> |
+  <%= link_to "Back to shelf daily stats", shelf_daily_stats_path %>
+
+  <%= button_to "Destroy this shelf daily stat", @shelf_daily_stat, method: :delete %>
+</div>

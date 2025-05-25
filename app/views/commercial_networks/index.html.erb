@@ -1,0 +1,16 @@
+<p style="color: green"><%= notice %></p>
+
+<% content_for :title, "Commercial networks" %>
+
+<h1>Commercial networks</h1>
+
+<div id="commercial_networks">
+  <% @commercial_networks.each do |commercial_network| %>
+    <%= render commercial_network %>
+    <p>
+      <%= link_to "Show this commercial network", commercial_network %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New commercial network", new_commercial_network_path %>
