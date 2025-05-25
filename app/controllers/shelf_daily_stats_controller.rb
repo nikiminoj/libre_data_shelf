@@ -57,6 +57,43 @@ class ShelfDailyStatsController < ApplicationController
     end
   end
 
+  def chart_data
+    shelf_daily_stats = ShelfDailyStat.all
+
+    if params[:start_date].present?
+      shelf_daily_stats = shelf_daily_stats.where("date >= ?", Date.parse(params[:start_date]))
+    end
+
+    if params[:end_date].present?
+      shelf_daily_stats = shelf_daily_stats.where("date <= ?", Date.parse(params[:end_date]))
+    end
+
+    if params[:product_id].present?
+      shelf_daily_stats = shelf_daily_stats.where(product_id: params[:product_id])
+    end
+
+    # Order by date to ensure the chart displays data chronologically
+    shelf_daily_stats = shelf_daily_stats.order(date: :asc)
+
+    render json: {
+      labels: shelf_daily_stats.map(&:date).map { |d| d.strftime('%Y-%m-%d') },
+      datasets: [
+        {
+          label: 'Average Price',
+          data: shelf_daily_stats.map(&:avg_price),
+          borderColor: 'rgb(255, 99, 132)',
+          backgroundColor: 'rgba(255, 99, 132, 0.5)',
+        },
+        {
+          label: 'Available Items',
+          data: shelf_daily_stats.map(&:available_items_count),
+          borderColor: 'rgb(54, 162, 235)',
+          backgroundColor: 'rgba(54, 162, 235, 0.5)',
+        }
+      ]
+    }
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_shelf_daily_stat

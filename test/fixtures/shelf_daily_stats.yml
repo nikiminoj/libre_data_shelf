@@ -2,17 +2,90 @@
 #
 # Table name: shelf_daily_stats
 #
-#  id         :bigint           not null, primary key
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
+#  id                    :bigint           not null, primary key
+#  avg_price             :decimal(, )
+#  available_items_count :integer
+#  date                  :date
+#  created_at            :datetime         not null
+#  updated_at            :datetime         not null
+#  product_id            :bigint
+#  shelf_id              :bigint
+#
+# Indexes
+#
+#  index_shelf_daily_stats_on_product_id  (product_id)
+#  index_shelf_daily_stats_on_shelf_id    (shelf_id)
 #
 
-# This model initially had no columns defined. If you add columns to the
-# model remove the "{}" from the fixture names and add the columns immediately
-# below each fixture, per the syntax in the comments below
-#
-one: {}
-# column: value
-#
-two: {}
-# column: value
+stat_one_product_one_day_ago:
+  product: product_one # References product_one from products.yml
+  date: <%= Date.today - 1.day %>
+  avg_price: 10.99
+  available_items_count: 100
+  created_at: <%= Time.zone.now %>
+  updated_at: <%= Time.zone.now %>
+
+stat_two_product_one_today:
+  product: product_one
+  date: <%= Date.today %>
+  avg_price: 11.50
+  available_items_count: 90
+  created_at: <%= Time.zone.now %>
+  updated_at: <%= Time.zone.now %>
+
+stat_three_product_two_day_ago:
+  product: product_two # References product_two from products.yml
+  date: <%= Date.today - 1.day %>
+  avg_price: 5.99
+  available_items_count: 50
+  created_at: <%= Time.zone.now %>
+  updated_at: <%= Time.zone.now %>
+
+stat_four_product_two_today:
+  product: product_two
+  date: <%= Date.today %>
+  avg_price: 6.20
+  available_items_count: 45
+  created_at: <%= Time.zone.now %>
+  updated_at: <%= Time.zone.now %>
+
+stat_for_filter_product_yesterday:
+  product: product_for_filtering # Product with id 99
+  date: <%= Date.today - 1.day %>
+  avg_price: 100.00
+  available_items_count: 10
+  created_at: <%= Time.zone.now %>
+  updated_at: <%= Time.zone.now %>
+
+stat_for_filter_product_today:
+  product: product_for_filtering
+  date: <%= Date.today %>
+  avg_price: 101.00
+  available_items_count: 12
+  created_at: <%= Time.zone.now %>
+  updated_at: <%= Time.zone.now %>
+
+stat_for_filter_product_tomorrow:
+  product: product_for_filtering
+  date: <%= Date.today + 1.day %>
+  avg_price: 102.00
+  available_items_count: 15
+  created_at: <%= Time.zone.now %>
+  updated_at: <%= Time.zone.now %>
+
+# A default 'one' and 'two' fixture for the scaffolded tests if they rely on them by name
+one:
+  product: product_one
+  date: <%= Date.today - 2.days %>
+  avg_price: 9.99
+  available_items_count: 110
+  created_at: <%= Time.zone.now %>
+  updated_at: <%= Time.zone.now %>
+
+two:
+  product: product_two
+  date: <%= Date.today - 2.days %>
+  avg_price: 4.99
+  available_items_count: 60
+  created_at: <%= Time.zone.now %>
+  updated_at: <%= Time.zone.now %>
