@@ -25,12 +25,23 @@
 #  fk_rails_...  (company_id => companies.id)
 #
 
-# This model initially had no columns defined. If you add columns to the
-# model remove the "{}" from the fixture names and add the columns immediately
-# below each fixture, per the syntax in the comments below
-#
-one: {}
-# column: value
-#
-two: {}
-# column: value
+product_one:
+  id: 1
+  name: "Test Product 1"
+  company: company_one # References company_one from companies.yml
+  created_at: <%= Time.zone.now %>
+  updated_at: <%= Time.zone.now %>
+
+product_two:
+  id: 2
+  name: "Test Product 2"
+  company: company_one
+  created_at: <%= Time.zone.now %>
+  updated_at: <%= Time.zone.now %>
+
+product_for_filtering:
+  id: 99
+  name: "Filter Product"
+  company: company_one
+  created_at: <%= Time.zone.now %>
+  updated_at: <%= Time.zone.now %>
