@@ -25,4 +25,9 @@
 #  fk_rails_...  (company_id => companies.id)
 #
 class Shop < ApplicationRecord
+  belongs_to :company
+  belongs_to :city
+
+  has_many :user_shops, dependent: :delete_all
+  has_many :users, through: :user_shops
 end

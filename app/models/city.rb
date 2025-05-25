@@ -20,4 +20,8 @@
 #  fk_rails_...  (region_id => regions.id)
 #
 class City < ApplicationRecord
+  belongs_to :company
+  belongs_to :region
+
+  has_many :shops
 end

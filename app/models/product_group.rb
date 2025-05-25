@@ -18,4 +18,7 @@
 #  fk_rails_...  (company_id => companies.id)
 #
 class ProductGroup < ApplicationRecord
+  belongs_to :company
+
+  has_many :products
 end

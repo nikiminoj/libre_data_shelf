@@ -61,3 +61,5 @@ gem "devise", "~> 4.9"
 gem "simple_form", "~> 5.3"
 gem "annotate", "~> 3.2"
 gem "pundit", "~> 2.5"
+
+gem "rolify", "~> 6.0"

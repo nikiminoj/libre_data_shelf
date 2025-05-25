@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_05_25_035511) do
+ActiveRecord::Schema[7.2].define(version: 2025_05_25_124517) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -25,8 +25,14 @@ ActiveRecord::Schema[7.2].define(version: 2025_05_25_035511) do
   end
 
   create_table "commercial_networks", force: :cascade do |t|
+    t.string "name"
+    t.string "contact_name"
+    t.string "contact_number"
+    t.string "comment"
+    t.bigint "company_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["company_id"], name: "index_commercial_networks_on_company_id"
   end
 
   create_table "companies", force: :cascade do |t|
@@ -50,13 +56,35 @@ ActiveRecord::Schema[7.2].define(version: 2025_05_25_035511) do
     t.index ["company_id"], name: "index_countries_on_company_id"
   end
 
+  create_table "model_logs", force: :cascade do |t|
+    t.string "action"
+    t.string "entity_name"
+    t.bigint "entity_type"
+    t.bigint "company_id"
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["action"], name: "index_model_logs_on_action"
+    t.index ["company_id"], name: "index_model_logs_on_company_id"
+    t.index ["entity_name"], name: "index_model_logs_on_entity_name"
+    t.index ["entity_type"], name: "index_model_logs_on_entity_type"
+    t.index ["user_id"], name: "index_model_logs_on_user_id"
+  end
+
   create_table "notifications", force: :cascade do |t|
     t.integer "status", null: false
     t.text "message"
+    t.datetime "read_at"
+    t.datetime "deleted_at"
     t.bigint "notifiable_id"
     t.string "notifiable_type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["created_at"], name: "index_notifications_on_created_at"
+    t.index ["deleted_at"], name: "index_notifications_on_deleted_at"
+    t.index ["notifiable_id", "notifiable_type"], name: "index_notifications_on_notifiable_id_and_notifiable_type"
+    t.index ["read_at"], name: "index_notifications_on_read_at"
+    t.index ["updated_at"], name: "index_notifications_on_updated_at"
   end
 
   create_table "product_groups", force: :cascade do |t|
@@ -94,14 +122,35 @@ ActiveRecord::Schema[7.2].define(version: 2025_05_25_035511) do
     t.index ["country_id"], name: "index_regions_on_country_id"
   end
 
-  create_table "shelf_daily_stats", force: :cascade do |t|
+  create_table "roles", force: :cascade do |t|
+    t.string "name"
+    t.string "resource_type"
+    t.bigint "resource_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["name", "resource_type", "resource_id"], name: "index_roles_on_name_and_resource_type_and_resource_id"
+    t.index ["resource_type", "resource_id"], name: "index_roles_on_resource"
+  end
+
+  create_table "shelf_daily_stats", force: :cascade do |t|
+    t.bigint "shelf_id", null: false
+    t.date "date"
+    t.decimal "max_temperature", precision: 6, scale: 2
+    t.decimal "min_temperature", precision: 6, scale: 2
+    t.integer "product_count_decrement"
+    t.decimal "weight", precision: 8, scale: 2
+    t.integer "product_count_violation_count", default: 0
+    t.integer "product_count_violation_duration"
+    t.integer "temperature_violation_count", default: 0
+    t.integer "temperature_violation_duration"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["shelf_id"], name: "index_shelf_daily_stats_on_shelf_id"
   end
 
   create_table "shelf_stats", force: :cascade do |t|
-    t.integer "weight"
-    t.integer "weight_percent"
+    t.decimal "weight", precision: 8, scale: 2
+    t.decimal "weight_percent", precision: 6, scale: 2
     t.integer "product_count"
     t.integer "product_count_real"
     t.boolean "temperature_violation"
@@ -171,15 +220,38 @@ ActiveRecord::Schema[7.2].define(version: 2025_05_25_035511) do
     t.index ["unlock_token"], name: "index_users_on_unlock_token", unique: true
   end
 
+  create_table "users_roles", id: false, force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "role_id"
+    t.index ["role_id"], name: "index_users_roles_on_role_id"
+    t.index ["user_id", "role_id"], name: "index_users_roles_on_user_id_and_role_id"
+    t.index ["user_id"], name: "index_users_roles_on_user_id"
+  end
+
+  create_table "users_shops", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "shop_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["shop_id"], name: "index_users_shops_on_shop_id"
+    t.index ["user_id"], name: "index_users_shops_on_user_id"
+  end
+
   add_foreign_key "cities", "companies"
   add_foreign_key "cities", "regions"
+  add_foreign_key "commercial_networks", "companies"
   add_foreign_key "countries", "companies"
+  add_foreign_key "model_logs", "companies"
+  add_foreign_key "model_logs", "users"
   add_foreign_key "product_groups", "companies"
   add_foreign_key "products", "companies"
   add_foreign_key "regions", "companies"
   add_foreign_key "regions", "countries"
+  add_foreign_key "shelf_daily_stats", "shelves"
   add_foreign_key "shelf_stats", "shelves"
   add_foreign_key "shelves", "companies"
   add_foreign_key "shelves", "products"
   add_foreign_key "shops", "companies"
+  add_foreign_key "users_shops", "shops"
+  add_foreign_key "users_shops", "users"
 end

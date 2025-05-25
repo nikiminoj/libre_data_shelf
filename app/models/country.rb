@@ -17,4 +17,7 @@
 #  fk_rails_...  (company_id => companies.id)
 #
 class Country < ApplicationRecord
+  belongs_to :company
+
+  has_many :regions
 end
