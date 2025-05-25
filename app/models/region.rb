@@ -20,4 +20,8 @@
 #  fk_rails_...  (country_id => countries.id)
 #
 class Region < ApplicationRecord
+  belongs_to :company
+  belongs_to :country
+
+  has_many :cities
 end

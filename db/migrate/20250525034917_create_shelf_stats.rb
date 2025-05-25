@@ -1,8 +1,8 @@
 class CreateShelfStats < ActiveRecord::Migration[7.2]
   def change
     create_table :shelf_stats do |t|
-      t.integer :weight
-      t.integer :weight_percent
+      t.decimal :weight, precision: 8, scale: 2
+      t.decimal :weight_percent, precision: 6, scale: 2
       t.integer :product_count
       t.integer :product_count_real
       t.boolean :temperature_violation

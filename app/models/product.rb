@@ -25,5 +25,10 @@
 #  fk_rails_...  (company_id => companies.id)
 #
 class Product < ApplicationRecord
+  belongs_to :company
+  belongs_to :product_group
+
+  has_many :shelves
+
   has_one_attached :picture
 end

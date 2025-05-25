@@ -15,4 +15,13 @@
 #  updated_at                      :datetime         not null
 #
 class Company < ApplicationRecord
+  has_many :product_groups
+  has_many :shelves
+  has_many :products
+  has_many :cities
+  has_many :regions
+  has_many :countries
+  has_many :shops
+  has_many :commercial_networks
+  has_many :model_logs
 end

@@ -7,10 +7,10 @@
 #  product_count_real    :integer
 #  temperature_violation :boolean
 #  timedelta             :integer
-#  weight                :integer
+#  weight                :decimal(8, 2)
 #  weight_decrement      :integer
 #  weight_increment      :integer
-#  weight_percent        :integer
+#  weight_percent        :decimal(6, 2)
 #  created_at            :datetime         not null
 #  updated_at            :datetime         not null
 #  shelf_id              :bigint           not null
@@ -24,4 +24,5 @@
 #  fk_rails_...  (shelf_id => shelves.id)
 #
 class ShelfStat < ApplicationRecord
+  belongs_to :shelf
 end

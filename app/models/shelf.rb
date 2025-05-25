@@ -25,4 +25,8 @@
 #  fk_rails_...  (product_id => products.id)
 #
 class Shelf < ApplicationRecord
+  belongs_to :product
+  belongs_to :company
+
+  has_many :shelf_stats
 end
