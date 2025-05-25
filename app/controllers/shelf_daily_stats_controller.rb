@@ -47,7 +47,10 @@ class ShelfDailyStatsController < ApplicationController
     end
   end
 
-  # DELETE /shelf_daily_stats/1 or /shelf_daily_stats/1.json
+  ##
+  # Deletes a ShelfDailyStat record and redirects to the index page.
+  #
+  # Removes the specified ShelfDailyStat from the database and responds with an HTML redirect or a JSON no-content response.
   def destroy
     @shelf_daily_stat.destroy!
 
@@ -57,6 +60,21 @@ class ShelfDailyStatsController < ApplicationController
     end
   end
 
+  ##
+  # Returns chart-ready JSON data for ShelfDailyStat records filtered by optional date range and product.
+  #
+  # The response includes labels (dates) and datasets for average price and available items count, formatted for charting libraries.
+  #
+  # @return [void] Renders a JSON response with chart data.
+  # @example
+  #   GET /shelf_daily_stats/chart_data?start_date=2024-01-01&end_date=2024-01-31&product_id=5
+  #   #=> {
+  #   #     labels: ["2024-01-01", "2024-01-02", ...],
+  #   #     datasets: [
+  #   #       { label: "Average Price", data: [...], ... },
+  #   #       { label: "Available Items", data: [...], ... }
+  #   #     ]
+  #   #   }
   def chart_data
     shelf_daily_stats = ShelfDailyStat.all
 
@@ -95,7 +113,7 @@ class ShelfDailyStatsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
+    # Sets @shelf_daily_stat for actions that require a specific ShelfDailyStat record.
     def set_shelf_daily_stat
       @shelf_daily_stat = ShelfDailyStat.find(params[:id])
     end
